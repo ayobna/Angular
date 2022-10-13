@@ -1,0 +1,7 @@
+<form (ngSubmit)="addToDO()" >
+
+  <input  class="form-control" placeholder="Describe your task.." [(ngModel)]="text" name="text"/>
+  <br/>
+  <p *ngIf='text!=""'>the task: {{text}} df sef erat </p>
+  <button class="btn btn-primary " type="submit">add</button>
+</form>
