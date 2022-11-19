@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import Todo from 'src/app/Models/Todo';
+import { TodoService } from 'src/app/services/todo.service';
 
 @Component({
   selector: 'app-todos',
@@ -7,32 +9,46 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TodosComponent implements OnInit {
 
-  todos = [
-    { id: "1", task: 'new skills', completed: false },
-    { id: "2", task: 'update update function', completed: true }
-  ]
 
-  constructor() { }
+  constructor(private todoService :TodoService) { }
+
+
+  todos :Todo[ ] = [ ]
+
 
   ngOnInit(): void {
+    console.log("sad")
+  this.todoService.getTodos(5).
+  subscribe((todos: Todo[])=>{
+    this.todos=todos
+
+ } );
   }
-  toggleToDo(todo: any) {
+
+  toggleToDo(todo: Todo) {
 
     this.todos = this.todos.map(item => {
       if (todo.id === item.id) {
         item.completed = !item.completed
+        this.todoService.update(item).subscribe(()=>{
+
+        })
       }
       return item;
     })
   }
-  deleteToDO(todo: any) {
+  deleteToDO(todo: Todo) {
 
-    this.todos = this.todos.filter(item=>{
-      return item.id !=todo.id;
+    this.todoService.delete(todo.id).subscribe(()=>{
+      this.todos = this.todos.filter(item=>{
+        return item.id !=todo.id;
+      })
     })
 
+
+
   }
-  addToDO(todo:any){
+  addToDO(todo:Todo){
  this.todos.push(todo)
  console.log(this.todos)
   }
